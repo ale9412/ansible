@@ -1,0 +1,14 @@
+---
+
+- hosts: client1
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Update packages
+    apt:
+      update_cache: true
+
+  - name: Install Apache2 package
+    apt: 
+      name: apache2
