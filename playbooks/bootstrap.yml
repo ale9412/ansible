@@ -1,0 +1,47 @@
+---
+ 
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (CentOS)
+    tags: always
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+ 
+ 
+- hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Create ansible user
+    tags: always
+    user:
+      name: ansible 
+      group: root
+
+  - name: Add ssh key for ansible
+    tags: always
+    authorized_key:
+      user: ansible
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFsV/G5krjgX9GeZiczAuYb48cykimmD5aAnGW9GBUuV Ansible"
+  
+  - name: Add sudoers file for ansible
+    tags: always
+    copy:
+      src: sudoer_ansible
+      dest: /etc/sudoers.d/ansible
+      mode: 0440
+      owner: root
+      group: root
+     
