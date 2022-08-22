@@ -1,0 +1,15 @@
+---
+
+- hosts: computes
+  become: true
+  gather_facts: false
+  tasks:
+
+  - name: Restart services
+    become: true
+    tags: services,computes,openstack,neutron_dhcp_agent
+    service:
+      name: neutron-dhcp-agent
+      state: restarted   
+      
+

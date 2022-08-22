@@ -1,6 +1,6 @@
 ---
 
-- hosts: client1
+- hosts: web_servers
   gather_facts: false
   become: true
   tasks:
